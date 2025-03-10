@@ -58,7 +58,7 @@ export class BookService {
     if (paragraphs.length === 0) {
       throw new NotFoundException('책의 문단을 찾을 수 없습니다.');
     }
-  
-    return distributeParagraphs(paragraphs.map(p => p.content));
+
+    return distributeParagraphs(paragraphs.map((p) => p.content));
   }
 }

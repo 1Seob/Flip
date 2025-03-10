@@ -12,7 +12,7 @@ import {
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags
+  ApiTags,
 } from '@nestjs/swagger';
 import { BookDto } from './dto/book.dto';
 import { SaveBookPayload } from './payload/save-book.payload';
@@ -38,8 +38,13 @@ export class BookController {
 
   @Get(':bookId/paragraphs')
   @ApiOperation({ summary: '책 문단을 30일 분량으로 가져옵니다' })
-  @ApiOkResponse({ type: [String], description: '30일 분량으로 나눠진 문단 목록' })
-  async getBookParagraphs(@Param('bookId') bookId: number): Promise<string[][]> {
+  @ApiOkResponse({
+    type: [String],
+    description: '30일 분량으로 나눠진 문단 목록',
+  })
+  async getBookParagraphs(
+    @Param('bookId') bookId: number,
+  ): Promise<string[][]> {
     return this.bookService.getBookParagraphs(bookId);
   }
 

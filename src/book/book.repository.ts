@@ -39,8 +39,6 @@ export class BookRepository {
       },
     });
   }
-  
-  
 
   async deleteBook(bookId: number): Promise<void> {
     await this.prisma.$transaction([
@@ -79,4 +77,4 @@ export class BookRepository {
       orderBy: { order: 'asc' },
     });
   }
-}  
+}
