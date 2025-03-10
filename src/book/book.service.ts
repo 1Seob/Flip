@@ -7,7 +7,7 @@ import { BookRepository } from './book.repository';
 import { BookDto } from './dto/book.dto';
 import { SaveBookPayload } from './payload/save-book.payload';
 import { SaveBookData } from './type/save-book-data.type';
-import { parsing } from './parsing';
+import { parsing, distributeParagraphs } from './parsing';
 
 @Injectable()
 export class BookService {
@@ -51,5 +51,14 @@ export class BookService {
       throw new NotFoundException('책을 찾을 수 없습니다.');
     }
     await this.bookRepository.deleteBook(bookId);
+  }
+
+  async getBookParagraphs(bookId: number): Promise<string[][]> {
+    const paragraphs = await this.bookRepository.getParagraphsByBookId(bookId);
+    if (paragraphs.length === 0) {
+      throw new NotFoundException('책의 문단을 찾을 수 없습니다.');
+    }
+
+    return distributeParagraphs(paragraphs.map((p) => p.content));
   }
 }

@@ -21,24 +21,22 @@ export class BookRepository {
   }
 
   async saveBook(data: SaveBookData, paragraphs: string[]): Promise<BookData> {
-    return this.prisma.$transaction(async (tx) => {
-      return tx.book.create({
-        data: {
-          title: data.title,
-          author: data.author,
-          paragraphs: {
-            create: paragraphs.map((paragraph, i) => ({
-              content: paragraph,
-              order: i,
-            })),
-          },
+    return this.prisma.book.create({
+      data: {
+        title: data.title,
+        author: data.author,
+        paragraphs: {
+          create: paragraphs.map((paragraph, i) => ({
+            content: paragraph,
+            order: i,
+          })),
         },
-        select: {
-          id: true,
-          title: true,
-          author: true,
-        },
-      });
+      },
+      select: {
+        id: true,
+        title: true,
+        author: true,
+      },
     });
   }
 
@@ -67,6 +65,16 @@ export class BookRepository {
         title: true,
         author: true,
       },
+    });
+  }
+
+  async getParagraphsByBookId(bookId: number): Promise<{ content: string }[]> {
+    return this.prisma.paragraph.findMany({
+      where: { bookId },
+      select: {
+        content: true,
+      },
+      orderBy: { order: 'asc' },
     });
   }
 }
