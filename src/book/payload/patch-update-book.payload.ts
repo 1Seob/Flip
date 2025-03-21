@@ -17,4 +17,12 @@ export class PatchUpdateBookPayload {
     type: String,
   })
   author?: string | null;
+
+  @IsOptional()
+  @ApiPropertyOptional({
+    description: '책 표지 이미지',
+    type: 'string',
+    format: 'binary',
+  })
+  coverImage?: Express.Multer.File;
 }

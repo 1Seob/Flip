@@ -32,6 +32,7 @@ model Book {
   id           Int       @id @default(autoincrement())
   title        String
   author       String
+  coverImageUrl String?
   createdAt    DateTime  @default(now()) @map("created_at")
   updatedAt    DateTime  @updatedAt @map("updated_at")
   deletedAt    DateTime? @map("deleted_at")

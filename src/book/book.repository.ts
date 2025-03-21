@@ -18,6 +18,7 @@ export class BookRepository {
         id: true,
         title: true,
         author: true,
+        coverImageUrl: true,
       },
     });
   }
@@ -27,6 +28,7 @@ export class BookRepository {
       data: {
         title: data.title,
         author: data.author,
+        coverImageUrl: data.coverImageUrl,
         paragraphs: {
           create: paragraphs.map((paragraph, i) => ({
             content: paragraph,
@@ -38,6 +40,7 @@ export class BookRepository {
         id: true,
         title: true,
         author: true,
+        coverImageUrl: true,
       },
     });
   }
@@ -70,6 +73,7 @@ export class BookRepository {
         id: true,
         title: true,
         author: true,
+        coverImageUrl: true,
       },
     });
   }
@@ -90,11 +94,15 @@ export class BookRepository {
       data: {
         title: data.title,
         author: data.author,
+        ...(data.coverImageUrl !== undefined && {
+          coverImageUrl: data.coverImageUrl,
+        }), // undefined이면 기존 값 유지
       },
       select: {
         id: true,
         title: true,
         author: true,
+        coverImageUrl: true,
       },
     });
   }
@@ -102,13 +110,14 @@ export class BookRepository {
   async getBooks(query: BookQuery): Promise<BookData[]> {
     return this.prisma.book.findMany({
       where: {
-        title: query.title,
-        author: query.author,
+        ...(query.title && { title: query.title }),
+        ...(query.author && { author: query.author }),
       },
       select: {
         id: true,
         title: true,
         author: true,
+        coverImageUrl: true,
       },
     });
   }

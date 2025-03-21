@@ -1,5 +1,5 @@
-import { IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsOptional } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class SaveBookPayload {
   @IsString()
@@ -15,4 +15,12 @@ export class SaveBookPayload {
     type: String,
   })
   author!: string;
+
+  @IsOptional()
+  @ApiPropertyOptional({
+    description: '책 표지 이미지',
+    type: 'string',
+    format: 'binary',
+  })
+  coverImage?: string;
 }
